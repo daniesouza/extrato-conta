@@ -1,0 +1,8 @@
+com.itau.extrato
+com.itau.extrato.dao
+com.itau.extrato.dao.impl
+com.itau.extrato.exception
+com.itau.extrato.model
+com.itau.extrato.service
+com.itau.extrato.service.impl
+com.itau.extrato.util
