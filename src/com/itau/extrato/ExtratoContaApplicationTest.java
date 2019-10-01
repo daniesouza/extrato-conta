@@ -8,7 +8,6 @@ import com.itau.extrato.model.Recebimento;
 import com.itau.extrato.service.MovimentacaoService;
 import com.itau.extrato.service.impl.MovimentacaoServiceImpl;
 import com.itau.extrato.util.StringUtil;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -26,7 +25,7 @@ public class ExtratoContaApplicationTest {
     public static void main(String[] args) {
 
         ExtratoContaApplicationTest test = new ExtratoContaApplicationTest();
-        try{
+        try {
             test.testMovimentacoesOrdenadoData();
             test.testTotalGastosCategoria();
             test.testMaiorGastoCategoria();
@@ -34,10 +33,10 @@ public class ExtratoContaApplicationTest {
             test.testTotalGastos();
             test.testTotalRecebimentos();
             test.testSaldoTotalMovimentacoes();
-        }catch (MovimentacaoRepositoryException ex){
+        } catch (MovimentacaoRepositoryException ex) {
             System.err.println("FALHA AO BUSCAR DADOS DO REPOSITORY.");
             ex.printStackTrace();
-        }catch (MovimentacaoServiceException ex){
+        } catch (MovimentacaoServiceException ex) {
             System.err.println("FALHA AO PROCESSAR INFORMAÇÕES DE EXTRATO.");
             ex.printStackTrace();
         }
@@ -65,13 +64,7 @@ public class ExtratoContaApplicationTest {
             data = StringUtil.paddingRight(format.format(movimentacao.getData()), 20);
             descricao = StringUtil.paddingRight(movimentacao.getDescricao(), 30);
             valor = StringUtil.paddingRight(movimentacao.getValor().toString(), 30);
-
-            if (movimentacao instanceof Pagamento) {
-                categoria = StringUtil.paddingRight(((Pagamento) movimentacao).getCategoria(), 15);
-            } else {
-                categoria = "";
-            }
-
+            categoria = StringUtil.paddingRight(movimentacao.getCategoria(), 15);
 
             String line = data + descricao + valor + categoria;
 
@@ -122,7 +115,7 @@ public class ExtratoContaApplicationTest {
 
         System.out.println("\n\n\n******************* MES QUE O CLIENTE MAIS GASTOU ********************\n");
 
-        Pagamento pagamento = movimentacaoService.getMaiorPagamentoPorCategoria();
+        Pagamento pagamento = movimentacaoService.getMaiorPagamentoMes();
 
         String data = StringUtil.paddingRight("Data", 20);
         String valor = StringUtil.paddingRight("Valor", 30);
@@ -131,7 +124,7 @@ public class ExtratoContaApplicationTest {
 
         System.out.println(header);
 
-        String line = StringUtil.paddingRight(pagamento.getCategoria(), 20) + StringUtil.paddingRight(pagamento.getValor().toString(), 30);
+        String line = StringUtil.paddingRight(format.format(pagamento.getData()), 20) + StringUtil.paddingRight(pagamento.getValor().toString(), 30);
         System.out.println(line);
     }
 
@@ -150,7 +143,7 @@ public class ExtratoContaApplicationTest {
         System.out.println(line);
     }
 
-    public void testTotalRecebimentos() {
+    private void testTotalRecebimentos() {
 
         System.out.println("\n******************* TOTAL DE RECEBIMENTOS DO CLIENTE ********************\n");
 
@@ -165,7 +158,7 @@ public class ExtratoContaApplicationTest {
         System.out.println(line);
     }
 
-    private void testSaldoTotalMovimentacoes(){
+    private void testSaldoTotalMovimentacoes() {
 
         List<Movimentacao> movimentacoes = movimentacaoService.listTotalMovimentacoes();
 

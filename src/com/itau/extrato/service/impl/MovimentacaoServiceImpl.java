@@ -159,7 +159,7 @@ public class MovimentacaoServiceImpl implements MovimentacaoService {
             Map.Entry<String, BigDecimal> min = Collections.min(gastosPorData.entrySet(), Comparator.comparing(Map.Entry::getValue));
 
             Pagamento pagamento = new Pagamento();
-            pagamento.setCategoria(min.getKey());
+            pagamento.setData(format.parse(min.getKey()));
             pagamento.setValor(min.getValue());
 
             return pagamento;
